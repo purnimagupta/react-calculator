@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {
@@ -30,4 +32,34 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* .app {
+  height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(to bottom right, var(--color-pink-transparent), var(--color-purple-transparent)), url(https://i.pinimg.com/originals/91/b5/cd/91b5cdab51e207263169904b227503b4.jpg);
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+/* .keypad {
+  height: 55vh;
+  width: 100%;
+} */
+.keypad_row {
+  height: 16vh;
+  width: 100%;
+}
+
+.calculator {
+  height: 80vh;
+  width: 40%;
+}
+
+.btn {
+  width: 25%;
+  height: 100%;
+  font-size: 1rem;
 }

@@ -5,28 +5,28 @@ const Keypad = (props) => {
   return(
     <section className="keypad">
       <div className="keypad_row">
-        <Button name="1"></Button>
-        <Button name="2"></Button>
-        <Button name="3"></Button>
-        <Button name="Add(+)"></Button>
+        <Button name="1" handleClick={props.handleClick}></Button>
+        <Button name="2" handleClick={props.handleClick}></Button>
+        <Button name="3" handleClick={props.handleClick}></Button>
+        <Button name="+" handleClick={props.handleClick}></Button>
       </div>
       <div className="keypad_row">
-        <Button name="5"></Button>
-        <Button name="6"></Button>
-        <Button name="7"></Button>
-        <Button name="Substract(-)"></Button>
+        <Button name="5" handleClick={props.handleClick}></Button>
+        <Button name="6" handleClick={props.handleClick}></Button>
+        <Button name="7" handleClick={props.handleClick}></Button>
+        <Button name="-" handleClick={props.handleClick}></Button>
       </div>
       <div className="keypad_row">
-        <Button name="7"></Button>
-        <Button name="8"></Button>
-        <Button name="9"></Button>
-        <Button name="Multiply(*)"></Button>
+        <Button name="7" handleClick={props.handleClick}></Button>
+        <Button name="8" handleClick={props.handleClick}></Button>
+        <Button name="9" handleClick={props.handleClick}></Button>
+        <Button name="*" handleClick={props.handleClick}></Button>
       </div>
       <div className="keypad_row">
-        <Button name="Clear"></Button>
-        <Button name="0"></Button>
-        <Button name="="></Button>
-        <Button name="Divide(/)"></Button>
+        <Button name="Clear" handleClick={props.handleClick}></Button>
+        <Button name="0" handleClick={props.handleClick}></Button>
+        <Button name="=" handleClick={props.handleClick}></Button>
+        <Button name="/" handleClick={props.handleClick}></Button>
       </div>
     </section>
   )

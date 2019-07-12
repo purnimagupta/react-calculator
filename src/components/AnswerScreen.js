@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import PropTypes from 'prop-types';
 
 const AnswerScreen = (props) => {
   
@@ -18,3 +19,8 @@ const AnswerScreen = (props) => {
 }
 
 export default AnswerScreen;
+
+AnswerScreen.propTypes = {
+  error: PropTypes.string,
+  answer: PropTypes.number
+};

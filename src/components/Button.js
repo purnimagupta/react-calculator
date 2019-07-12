@@ -1,7 +1,9 @@
 import React from 'react';
 import '../App.css';
+import PropTypes from 'prop-types';
 
-const Button = (props) => {
+const Button = (props) => { 
+
   function handleClick() {
     props.handleClick(props.name)
   }
@@ -12,3 +14,8 @@ const Button = (props) => {
   )
 }
 export default Button;
+
+Button.propTypes = {
+  name: PropTypes.string,
+  handleClick: PropTypes.func
+};

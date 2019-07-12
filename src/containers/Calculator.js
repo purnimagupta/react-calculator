@@ -22,12 +22,10 @@ class Calculator extends React.Component {
     return parseStringEquation(str)
   }
   getCurrentVal = (str) => {
-    let lastElem = str[str.length-1];   
-    // console.log("lastElem", lastElem) 
+    let lastElem = str[str.length-1];    
     this.setState({
       currentVal: lastElem,
     })
-
   }
 
   changeSignCurrentVal = (currentVal) => {
@@ -138,9 +136,7 @@ class Calculator extends React.Component {
 
 
   performOperation = (btnName) => {
-    // name = Number(name);
     const { currentVal} = this.state;
-
 
     if(btnName === "Clear") {
       return this.clearData();
@@ -170,7 +166,6 @@ class Calculator extends React.Component {
 
   render() {
     const { mathEquation, answer, error, currentVal, sqrtClicked, sqrtVal, squaredNum } = this.state;
-    // console.log(currentVal);
     return(
       <div className="calculator">
         <DisplayScreen mathEquation={mathEquation} answer={answer} error={error} currentVal={currentVal} sqrtVal={sqrtVal} squaredNum={squaredNum}/>

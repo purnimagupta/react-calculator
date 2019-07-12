@@ -1,6 +1,8 @@
 import React from 'react';
 import '../App.css';
 import Button from './Button';
+import PropTypes from 'prop-types';
+
 const Keypad = (props) => {
   return(
     <section className="keypad">
@@ -32,3 +34,7 @@ const Keypad = (props) => {
   )
 }
 export default Keypad;
+
+Keypad.propTypes = {
+  handleClick: PropTypes.func.isRequired
+};

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import PropTypes from 'prop-types';
 
 const EquationScreen = (props) => {
   return(
@@ -10,3 +11,7 @@ const EquationScreen = (props) => {
 }
 
 export default EquationScreen;
+
+EquationScreen.propTypes = {
+  mathEquation: PropTypes.string
+};

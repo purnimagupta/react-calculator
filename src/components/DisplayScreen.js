@@ -1,27 +1,15 @@
 import React from 'react';
 import '../App.css';
+import AnswerScreen from './AnswerScreen';
+import EquationScreen from './EquationScreen';
 
 function DisplayScreen(props) {
-  const answer = ( 
-      props.error 
-          ? 
-          <div className="answer">{props.error}</div> 
-          : 
-          <div className="answer">{props.answer} </div>
-      )
-                  
+  const { sqrtVal, squaredNum, error, answer, mathEquation, currentVal } = props;
+  
   return(
     <div className="result_screen">
-
-      <div className="equation">
-        {props.mathEquation}
-      </div>
-      {/* <div>
-        {props.currentVal}
-      </div> */}
-      <div>
-        { props.answer ? answer : props.currentVal}
-      </div>
+      <EquationScreen mathEquation={mathEquation}/>
+      <AnswerScreen error={error} answer={answer} sqrtVal={sqrtVal} squaredNum={squaredNum} currentVal={currentVal}/>
     </div>
   )
 }

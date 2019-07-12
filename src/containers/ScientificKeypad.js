@@ -15,7 +15,7 @@ class ScientificKeypad extends React.Component {
   }
 
   // It will toggle "scien-mode" button
-  handleClick = (name) => {
+  toggleMode = (name) => {
     if(name === "scien-mode") {
       this.setState((prevState) => ({
         toggle: !prevState.toggle,
@@ -25,22 +25,23 @@ class ScientificKeypad extends React.Component {
 
   render() {
     const { toggle, scienBtnArr } = this.state;
+    const { handleClick } = this.props;
 
     // map over scienBtnArr[] and return buttons.
     const buttons = (
       toggle === true 
         ? scienBtnArr.map((btn) => (   
-            <Button name={btn} key={btn} handleClick={this.props.handleClick}></Button>
+            <Button name={btn} key={btn} handleClick={handleClick}></Button>
           ))
-        : ''
+        : null
     )
 
     return(
-      <div className="keypad_row"> 
-        <div style={{height: '11vh'}}>
-          <Button name="scien-mode" handleClick={this.handleClick}/>
+      <div className="keypad"> 
+        <div style={{height: '11vh'}} className="keypad_row">
+          <Button name="scien-mode" handleClick={this.toggleMode}/>
+          {buttons}
         </div>
-        {buttons}
       </div>
     )
   }

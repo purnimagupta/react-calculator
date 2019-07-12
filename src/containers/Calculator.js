@@ -8,6 +8,7 @@ import ScientificKeypad from './ScientificKeypad';
 import squareRoot from '../utils/squareRoot';
 import square from '../utils/square';
 import * as constants from '../constants';
+import ToggleTheme from '../components/ToggleTheme'
 
 class Calculator extends React.Component {
   state = {
@@ -15,15 +16,6 @@ class Calculator extends React.Component {
     mathEquation: '',
     error:'',
     currentVal: '',
-    sqrtVal: '',
-    squaredNum: '',
-  }
-  
-  getCurrentVal = (str) => {
-    let lastElem = str[str.length-1];    
-    this.setState({
-      currentVal: lastElem,
-    })
   }
 
   changeSignCurrentVal = (currentVal) => {
@@ -51,7 +43,6 @@ class Calculator extends React.Component {
     const { mathEquation } = this.state;
     let squaredNum = square(Number(mathEquation))
     this.setState({
-      squaredNum: squaredNum,
       mathEquation: squaredNum.toString(),
       answer: squaredNum
     });
@@ -63,8 +54,6 @@ class Calculator extends React.Component {
       answer: 0,
       error: '',
       currentVal: '',
-      sqrtVal: '',
-      squaredNum: '',
     })
   }
 
@@ -77,7 +66,6 @@ class Calculator extends React.Component {
         sqrtNum = squareRoot(Number(mathEquation));
     }
     this.setState({
-      sqrtVal: sqrtNum,
       mathEquation: error ? error: sqrtNum.toString(),
       answer: sqrtNum,
       error: error
@@ -104,33 +92,51 @@ class Calculator extends React.Component {
       mathEquation: error ? error : evalAnswer.toString()
     });
   }
-
+  /**
+   * It concatenate clicked button's val to mathEquation state. 
+   * Retrive last val of an array and sets it as current Val
+   * 
+   * Note: changeSignCurrentVal() will change the sign of this 
+   *       retrived value.
+   *
+   * @param {String} numberbtns
+   * 
+   */
   concatNumbers = (numberbtns) => {
     let {mathEquation } = this.state;
     numberbtns = Number(numberbtns);
     mathEquation = mathEquation.concat(numberbtns);
-    const val = parseStringEquation(mathEquation)
-    this.getCurrentVal(val);
+    const arrVal = parseStringEquation(mathEquation)
+    let lastElem = arrVal[arrVal.length-1]; 
     this.setState({
-      mathEquation: mathEquation
+      mathEquation: mathEquation,
+      currentVal: lastElem
     })
   }
 
+  /**
+   * It concatenate clicked button's val to mathEquation state. 
+   * 
+   * @param {String} operatorsbtns
+   * 
+   */
   concatOpearators = (operatorsbtns) => {
     let {mathEquation } = this.state;
-    if(typeof mathEquation === "number") {
-      mathEquation = mathEquation.toString();
-      mathEquation= mathEquation.concat(operatorsbtns);
-    }
-    else {
-      mathEquation= mathEquation.concat(operatorsbtns);
-    }
+    mathEquation = mathEquation.toString();
+    mathEquation= mathEquation.concat(operatorsbtns);
+  
     this.setState({
       mathEquation: mathEquation
     })
   }
 
-// This function will get called on every button click.
+  /**
+   * performOperation calls corresponsing function when the given
+   * condition is satisfied.
+   * 
+   * @param {String} btnName
+   * 
+   */
   performOperation = (btnName) => {
     const { currentVal} = this.state;
 
@@ -165,6 +171,7 @@ class Calculator extends React.Component {
         <DisplayScreen mathEquation={mathEquation} answer={answer} error={error}/>
         <Keypad handleClick={this.performOperation}/>
         <ScientificKeypad handleClick={this.performOperation}/>
+        <ToggleTheme />
       </div>
     )
   }

@@ -1,3 +1,9 @@
+/**
+ * Returns an array of numbers and strings
+ *
+ * @param {String} string
+ * @returns {Array} Array
+ */
 export default function parseStringEquation(string) {
   // --- Parse a calculation string into an array of numbers and operators
   let calculation = [],

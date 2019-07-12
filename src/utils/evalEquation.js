@@ -1,3 +1,11 @@
+
+/**
+ * Returns the first element of an array
+ *
+ * @param {String[]} old_calc
+ * @return {Number} Number
+ */
+
 export default function calculateEquation(old_calc) {
   let ops = [
     {
@@ -19,34 +27,29 @@ export default function calculateEquation(old_calc) {
       }
     } 
   ];
-  let new_calc= [];
-  let returned_fun; 
 
-  for (var i = 0; i < ops.length; i++) {
-    for (var j = 0; j < old_calc.length; j++) {
+  let new_calc= [];
+  let returned_func;
+
+  for (let i = 0; i < ops.length; i++) {
+    for (let j = 0; j < old_calc.length; j++) {
+
         if (ops[i][old_calc[j]]) {
-            returned_fun = ops[i][old_calc[j]];
-            // console.log("2 ", currentOp)
-        } else if (returned_fun) {
-            // console.log("calc[j] ", calc[j])
-            // console.log("newCalc is ", newCalc)
-            new_calc[new_calc.length - 1] = returned_fun(new_calc[new_calc.length - 1], old_calc[j]);
-            // console.log("3 ", newCalc)
-            returned_fun = null;
+            returned_func = ops[i][old_calc[j]];
+        } else if (returned_func) {
+            new_calc[new_calc.length - 1] = returned_func(new_calc[new_calc.length - 1], old_calc[j]);
+            returned_func = null;
         } else {
             new_calc.push(old_calc[j]);
-            // console.log("4 ", newCalc)
         }
     }
         old_calc = new_calc;
-        // console.log("calc", calc)
         new_calc = [];
-        // operators.length--;
     }
+
     if(old_calc.length > 1) {
       return { error: "something is wrong"}
-    }
-    else {
+    } else {
       return old_calc[0];
     }
 }

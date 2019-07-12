@@ -17,7 +17,6 @@ class Calculator extends React.Component {
     currentVal: '',
     sqrtVal: '',
     squaredNum: '',
-    equalToClicked: false
   }
   
   getCurrentVal = (str) => {
@@ -50,9 +49,7 @@ class Calculator extends React.Component {
 
   squareNumber = () => {
     const { mathEquation } = this.state;
-    // console.log(currentVal, mathEquation)
     let squaredNum = square(Number(mathEquation))
-    console.log("squaredNum", squaredNum)
     this.setState({
       squaredNum: squaredNum,
       mathEquation: squaredNum.toString(),
@@ -81,7 +78,7 @@ class Calculator extends React.Component {
     }
     this.setState({
       sqrtVal: sqrtNum,
-      mathEquation: error? error: sqrtNum.toString(),
+      mathEquation: error ? error: sqrtNum.toString(),
       answer: sqrtNum,
       error: error
     });
@@ -93,7 +90,8 @@ class Calculator extends React.Component {
     try {
       const { mathEquation } = this.state;
       evalAnswer = evalEquation(parseStringEquation(mathEquation))
-      if(Number.isNaN(evalAnswer)) {
+      console.log(evalAnswer)
+      if(Number.isNaN(evalAnswer) || evalAnswer === undefined) {
           error = "Error";
       } 
     }
@@ -103,7 +101,7 @@ class Calculator extends React.Component {
     this.setState({
       answer: evalAnswer,
       error: error,
-      mathEquation: evalAnswer.toString()
+      mathEquation: error ? error : evalAnswer.toString()
     });
   }
 
@@ -132,7 +130,7 @@ class Calculator extends React.Component {
     })
   }
 
-
+// This function will get called on every button click.
   performOperation = (btnName) => {
     const { currentVal} = this.state;
 
@@ -144,7 +142,6 @@ class Calculator extends React.Component {
     }
     if(btnName === constants.SQR_ROOT) {
       this.getSquareRoot();
-      // this.calculateSquareRoot();
     }
     if(btnName === constants.SQUARE) {
       this.squareNumber();
@@ -162,12 +159,12 @@ class Calculator extends React.Component {
   }
 
   render() {
-    const { mathEquation, answer, error, currentVal, sqrtClicked, sqrtVal, squaredNum } = this.state;
+    const { mathEquation, answer, error } = this.state;
     return(
       <div className="calculator">
-        <DisplayScreen mathEquation={mathEquation} answer={answer} error={error} currentVal={currentVal} sqrtVal={sqrtVal} squaredNum={squaredNum}/>
+        <DisplayScreen mathEquation={mathEquation} answer={answer} error={error}/>
         <Keypad handleClick={this.performOperation}/>
-        <ScientificKeypad handleClick={this.performOperation} sqrtClicked={sqrtClicked}/>
+        <ScientificKeypad handleClick={this.performOperation}/>
       </div>
     )
   }

@@ -5,19 +5,25 @@ import Keypad from '../components/Keypad';
 import parseStringEquation from '../utils/parseStringEquation';
 import evalEquation from '../utils/evalEquation';
 import ScientificKeypad from './ScientificKeypad';
+import squareRoot from '../utils/squareRoot';
+import square from '../utils/square';
 
 class Calculator extends React.Component {
   state = {
     answer: 0,
     mathEquation: '',
     error:'',
-    currentVal: ''
+    currentVal: '',
+    sqrtVal: '',
+    squaredNum: '',
+    equalToClicked: false
   }
   getParseEquation = (str) => {
     return parseStringEquation(str)
   }
   getCurrentVal = (str) => {
-    let lastElem = str[str.length-1];    
+    let lastElem = str[str.length-1];   
+    // console.log("lastElem", lastElem) 
     this.setState({
       currentVal: lastElem,
     })
@@ -25,103 +31,151 @@ class Calculator extends React.Component {
   }
 
   changeSignCurrentVal = (currentVal) => {
-    console.log(currentVal)
-     if(Math.sign(currentVal) === 1) {
-      console.log(currentVal)
-      currentVal= currentVal*-1
-    }
-    else if((Math.sign(currentVal) === -1)) {
-      console.log(currentVal)
-      currentVal= currentVal*-1
-    }
+    console.log("changeSignCurrentVal", currentVal)
     this.setState({
-      currentVal: currentVal
+      currentVal: currentVal*-1
     }, () => this.updateEquationOnSign())
     
   }
 
-  updateEquationOnSign = (currentVal) => {
+  updateEquationOnSign = () => {
     const { mathEquation } = this.state;
-    let str = parseStringEquation(mathEquation);
-    let lastIndex = str.length-1;
-    let lastElem = str[str.length-1];
-    let newLastVal;
-    if((Math.sign(lastElem) === 1)) {
-       newLastVal = str.splice(lastIndex, 1, lastElem*-1)
-       console.log("newLastVal is ", newLastVal[0])
-       console.log("str if positive is", str)
-    }
-    else if((Math.sign(lastElem) === -1)) {
-      newLastVal = str.splice(lastIndex, 1, lastElem*-1)
-      console.log("newLastVal is ", newLastVal[0])
-      console.log("str if negative is", str)
-    }
+    let equationArray = parseStringEquation(mathEquation);
+    let lastIndex = equationArray.length-1;
+    let lastElem = equationArray[equationArray.length-1];
+    equationArray.splice(lastIndex, 1, lastElem*-1)
 
-    this.setState({
-      mathEquation: str.join([,])
+    this.setState(  {
+      mathEquation: equationArray.join([])
     })
 
   }
 
-  performOperation = (btnName) => {
-    // name = Number(name);
-    let { mathEquation } = this.state;
-    let evalAnswer=0;
-    let error;
-    if(btnName === "Clear") {
-      return this.setState({
-        mathEquation: '',
-        answer: 0,
-        error: '',
-        currentVal: ''
-      })
-    }
-    if(btnName === "Flip Sign") {
-      const { currentVal } = this.state;
-      this.changeSignCurrentVal(currentVal);
-    }
-    else if( btnName >= '0' && btnName <= '9') {
-      btnName = Number(btnName);
-      mathEquation = mathEquation.concat(btnName);
-      const val = this.getParseEquation(mathEquation)
-      this.getCurrentVal(val);
-    }
-    else if(['+', '-', '/', '*'].indexOf(btnName) !== -1) {
-      mathEquation = mathEquation.concat(btnName);
-    }
-    else if(btnName === "=") {
-      try {
-        // console.log(parseStringEquation(mathEquation));
-        evalAnswer = evalEquation(parseStringEquation(mathEquation))
-        if(Number.isNaN(evalAnswer)) {
-            error = "Error";
-        }
-        // else {
-
-        // }
-        console.log(evalAnswer)
-      }
-      catch(error) {
-        console.log(error)
-      }
-    }
-    
+  squareNumber = () => {
+    const { mathEquation } = this.state;
+    // console.log(currentVal, mathEquation)
+    let squaredNum = square(Number(mathEquation))
+    console.log("squaredNum", squaredNum)
     this.setState({
-      mathEquation: mathEquation,
-      answer: evalAnswer,
-      error: error,
+      squaredNum: squaredNum,
+      mathEquation: squaredNum.toString(),
+      answer: squaredNum
     });
   }
 
-  render() {
+  clearData = () => {
+    this.setState({
+      mathEquation: '',
+      answer: 0,
+      error: '',
+      currentVal: '',
+      sqrtVal: '',
+      squaredNum: '',
+    })
+  }
+  getSquareRoot = () => {
+    const { mathEquation } = this.state;
+    let error, sqrtNum;
+    if(Math.sign(mathEquation) === -1) {
+        error = "Square root of negative number can't be calculated"
+    }else{
+        sqrtNum = squareRoot(Number(mathEquation));
+    }
+    this.setState({
+      sqrtVal: sqrtNum,
+      mathEquation: error? error: sqrtNum.toString(),
+      answer: sqrtNum,
+      error: error
+    });
+    error='';
+  }
 
-    const { mathEquation, answer, error, currentVal } = this.state;
-    // console.log(this.state)
+  calculateEquation = () => {
+    let evalAnswer, error;
+    try {
+      const { mathEquation } = this.state;
+      evalAnswer = evalEquation(parseStringEquation(mathEquation))
+      if(Number.isNaN(evalAnswer)) {
+          error = "Error";
+      } 
+    }
+    catch(error) {
+      console.log(error)
+    }
+    this.setState({
+      answer: evalAnswer,
+      error: error,
+      mathEquation: evalAnswer.toString()
+    });
+  }
+
+  concatNumbers = (numberbtns) => {
+    let {mathEquation } = this.state;
+    // let concatNumbers;
+    numberbtns = Number(numberbtns);
+    mathEquation = mathEquation.concat(numberbtns);
+    const val = this.getParseEquation(mathEquation)
+    this.getCurrentVal(val);
+    this.setState({
+      mathEquation: mathEquation
+    })
+  }
+
+  concatOpearators = (operatorsbtns) => {
+    // let concatOperators;
+    let {mathEquation } = this.state;
+    if(typeof mathEquation === "number") {
+      mathEquation = mathEquation.toString();
+      mathEquation= mathEquation.concat(operatorsbtns);
+    }
+    else {
+      mathEquation= mathEquation.concat(operatorsbtns);
+    }
+    this.setState({
+      mathEquation: mathEquation
+    })
+  }
+
+
+  performOperation = (btnName) => {
+    // name = Number(name);
+    const { currentVal} = this.state;
+
+
+    if(btnName === "Clear") {
+      return this.clearData();
+    }
+    if(btnName === "Flip Sign") {
+      this.changeSignCurrentVal(currentVal);
+    }
+    if(btnName === "Sqr Root") {
+      this.getSquareRoot();
+      // this.calculateSquareRoot();
+    }
+    if(btnName === "Square") {
+      this.squareNumber();
+      // this.getSquareNum()
+    }
+    else if( btnName >= '0' && btnName <= '9') {
+      this.concatNumbers(btnName)
+    }
+    else if(['+', '-', '/', '*'].indexOf(btnName) !== -1) {
+      this.concatOpearators(btnName)
+    }
+    else if(btnName === "=") {
+      this.calculateEquation();
+    }
+
+  }
+
+  render() {
+    const { mathEquation, answer, error, currentVal, sqrtClicked, sqrtVal, squaredNum } = this.state;
+    // console.log(currentVal);
     return(
       <div className="calculator">
-        <DisplayScreen mathEquation={mathEquation} answer={answer} error={error} currentVal={currentVal}/>
+        <DisplayScreen mathEquation={mathEquation} answer={answer} error={error} currentVal={currentVal} sqrtVal={sqrtVal} squaredNum={squaredNum}/>
         <Keypad handleClick={this.performOperation}/>
-        <ScientificKeypad handleClick={this.performOperation}/>
+        <ScientificKeypad handleClick={this.performOperation} sqrtClicked={sqrtClicked}/>
       </div>
     )
   }

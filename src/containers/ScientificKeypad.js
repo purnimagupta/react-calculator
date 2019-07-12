@@ -5,7 +5,7 @@ import '../App.css';
 class ScientificKeypad extends React.Component {
   state = {
     toggle: false,
-    scienBtnArr: ["Flip Sign", "Square", "Sign Root"],
+    scienBtnArr: ["Flip Sign", "Square", "Sqr Root"],
   }
   handleClick = (name) => {
     if(name === "scien-mode") {

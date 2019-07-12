@@ -7,6 +7,7 @@ import evalEquation from '../utils/evalEquation';
 import ScientificKeypad from './ScientificKeypad';
 import squareRoot from '../utils/squareRoot';
 import square from '../utils/square';
+import * as constants from '../constants';
 
 class Calculator extends React.Component {
   state = {
@@ -18,9 +19,7 @@ class Calculator extends React.Component {
     squaredNum: '',
     equalToClicked: false
   }
-  getParseEquation = (str) => {
-    return parseStringEquation(str)
-  }
+  
   getCurrentVal = (str) => {
     let lastElem = str[str.length-1];    
     this.setState({
@@ -71,6 +70,7 @@ class Calculator extends React.Component {
       squaredNum: '',
     })
   }
+
   getSquareRoot = () => {
     const { mathEquation } = this.state;
     let error, sqrtNum;
@@ -109,10 +109,9 @@ class Calculator extends React.Component {
 
   concatNumbers = (numberbtns) => {
     let {mathEquation } = this.state;
-    // let concatNumbers;
     numberbtns = Number(numberbtns);
     mathEquation = mathEquation.concat(numberbtns);
-    const val = this.getParseEquation(mathEquation)
+    const val = parseStringEquation(mathEquation)
     this.getCurrentVal(val);
     this.setState({
       mathEquation: mathEquation
@@ -120,7 +119,6 @@ class Calculator extends React.Component {
   }
 
   concatOpearators = (operatorsbtns) => {
-    // let concatOperators;
     let {mathEquation } = this.state;
     if(typeof mathEquation === "number") {
       mathEquation = mathEquation.toString();
@@ -138,19 +136,18 @@ class Calculator extends React.Component {
   performOperation = (btnName) => {
     const { currentVal} = this.state;
 
-    if(btnName === "Clear") {
+    if(btnName === constants.CLEAR) {
       return this.clearData();
     }
-    if(btnName === "Flip Sign") {
+    if(btnName === constants.FLIP_SIGN) {
       this.changeSignCurrentVal(currentVal);
     }
-    if(btnName === "Sqr Root") {
+    if(btnName === constants.SQR_ROOT) {
       this.getSquareRoot();
       // this.calculateSquareRoot();
     }
-    if(btnName === "Square") {
+    if(btnName === constants.SQUARE) {
       this.squareNumber();
-      // this.getSquareNum()
     }
     else if( btnName >= '0' && btnName <= '9') {
       this.concatNumbers(btnName)

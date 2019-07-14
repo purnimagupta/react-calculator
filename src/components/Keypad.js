@@ -3,36 +3,34 @@ import '../App.css';
 import Button from './Button';
 import PropTypes from 'prop-types';
 
-const Keypad = (props) => {
-  return(
-    <section className="keypad">
-      <div className="keypad_row">
-        <Button name="1" handleClick={props.handleClick}></Button>
-        <Button name="2" handleClick={props.handleClick}></Button>
-        <Button name="3" handleClick={props.handleClick}></Button>
-        <Button name="+" handleClick={props.handleClick}></Button>
-      </div>
-      <div className="keypad_row">
-        <Button name="5" handleClick={props.handleClick}></Button>
-        <Button name="6" handleClick={props.handleClick}></Button>
-        <Button name="7" handleClick={props.handleClick}></Button>
-        <Button name="-" handleClick={props.handleClick}></Button>
-      </div>
-      <div className="keypad_row">
-        <Button name="7" handleClick={props.handleClick}></Button>
-        <Button name="8" handleClick={props.handleClick}></Button>
-        <Button name="9" handleClick={props.handleClick}></Button>
-        <Button name="*" handleClick={props.handleClick}></Button>
-      </div>
-      <div className="keypad_row">
-        <Button name="Clear" handleClick={props.handleClick}></Button>
-        <Button name="0" handleClick={props.handleClick}></Button>
-        <Button name="=" handleClick={props.handleClick}></Button>
-        <Button name="/" handleClick={props.handleClick}></Button>
-      </div>
-    </section>
-  )
+class Keypad extends React.Component {
+  state = {
+    btns: ["1", "2","3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "Clear", "0", "=", "/" ],
+  }
+
+  createBtns = () => {
+    let keypad_row = []
+    const { btns } = this.state;
+    for (let i = 0; i<btns.length; i=i+4) {
+      let button = [];
+      //Inner loop to create button
+      for (let j = i; j < 4+i; j++) {
+        button.push(<Button name={btns[j]} key={j + 1} handleClick={this.props.handleClick}></Button>)
+      }
+      keypad_row.push(<div className="keypad_row" key={btns[i]+1}>{button}</div>)
+    }
+    return keypad_row
+  }
+
+  render() {
+    return(
+        <section className="keypad">        
+          {this.createBtns()}  
+        </section>
+    )
+  }
 }
+
 export default Keypad;
 
 Keypad.propTypes = {

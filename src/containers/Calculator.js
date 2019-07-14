@@ -8,7 +8,6 @@ import ScientificKeypad from './ScientificKeypad';
 import squareRoot from '../utils/squareRoot';
 import square from '../utils/square';
 import * as constants from '../constants';
-import ToggleTheme from '../components/ToggleTheme'
 
 class Calculator extends React.Component {
   state = {
@@ -171,7 +170,6 @@ class Calculator extends React.Component {
         <DisplayScreen mathEquation={mathEquation} answer={answer} error={error}/>
         <Keypad handleClick={this.performOperation}/>
         <ScientificKeypad handleClick={this.performOperation}/>
-        <ToggleTheme />
       </div>
     )
   }

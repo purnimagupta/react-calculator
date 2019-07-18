@@ -1,4 +1,4 @@
-####Calculator App made with React and Typescript ####
+Calculator App made with React and Typescript
 ---
 
 Created with *create-react-app*. See the [full create-react-app guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
@@ -6,7 +6,7 @@ Created with *create-react-app*. See the [full create-react-app guide](https://g
 
 Clone the repo
 ---
-`git clone git@gitlab.com:pum21/react-calculator`
+`git clone git@github.com:pooyaX14/react-calculator.git
 
 
 To install npm packages and start the server:

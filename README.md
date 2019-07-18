@@ -6,7 +6,7 @@ Created with *create-react-app*. See the [full create-react-app guide](https://g
 
 Clone the repo
 ---
-`git clone git@github.com:pooyaX14/react-calculator.git
+`git clone git@github.com:pooyaX14/react-calculator.git`
 
 
 To install npm packages and start the server:

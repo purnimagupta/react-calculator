@@ -1,15 +1,15 @@
 /**
  * Returns an array of numbers and strings
  *
- * @param {String} string
+ * @param {String} equation
  * @returns {Array} Array
  */
-export default function parseStringEquation(string) {
+export default function parseStringEquation(equation: string) : (string|number)[] {
   // --- Parse a calculation string into an array of numbers and operators
   let calculation = [],
       current = '';
-  for (let i = 0, ch;  i<string.length; i++) {
-      ch = string.charAt(i);
+  for (let i = 0, ch;  i<equation.length; i++) {
+      ch = equation.charAt(i);
       if ('^*/+-'.indexOf(ch) > -1) {
           if (current === '' && ch === '-') {
               current = '-';
@@ -18,7 +18,7 @@ export default function parseStringEquation(string) {
               current = '';
           }
       } else {
-          current += string.charAt(i);
+          current += equation.charAt(i);
       }
   }
   if (current !== '') {

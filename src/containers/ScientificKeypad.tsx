@@ -3,7 +3,14 @@ import Button from '../components/Button';
 import '../App.css';
 import PropTypes from 'prop-types';
 
-class ScientificKeypad extends React.Component {
+interface ScientificKeypadState {
+  toggle: boolean;
+  scienBtnArr: string[];
+}
+interface ScientificKeypadProps {
+  handleClick: (name: string) => void;
+}
+class ScientificKeypad extends React.Component<ScientificKeypadProps, ScientificKeypadState> {
   // checking for props type
   static propTypes = {
     handleClick: PropTypes.func.isRequired,
@@ -15,7 +22,7 @@ class ScientificKeypad extends React.Component {
   }
 
   // It will toggle "scien-mode" button
-  toggleMode = (name) => {
+  toggleMode = (name: string) => {
     if(name === "scien-mode") {
       this.setState((prevState) => ({
         toggle: !prevState.toggle,

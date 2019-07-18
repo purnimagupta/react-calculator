@@ -3,7 +3,10 @@ import '../App.css';
 import Button from './Button';
 import PropTypes from 'prop-types';
 
-class Keypad extends React.Component {
+interface KeypadProps {
+  handleClick: (name: string) => void;
+}
+class Keypad extends React.Component<KeypadProps> {
   state = {
     btns: ["1", "2","3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "Clear", "0", "=", "/" ],
   }
@@ -33,6 +36,6 @@ class Keypad extends React.Component {
 
 export default Keypad;
 
-Keypad.propTypes = {
-  handleClick: PropTypes.func.isRequired
-};
+// Keypad.propTypes = {
+//   handleClick: PropTypes.func.isRequired
+// };

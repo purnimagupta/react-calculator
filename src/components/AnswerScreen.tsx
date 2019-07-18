@@ -2,7 +2,12 @@ import React from 'react';
 import '../App.css';
 import PropTypes from 'prop-types';
 
-const AnswerScreen = (props) => {
+interface AnswerScreenProps {
+  error: string;
+  answer: number;
+}
+
+const AnswerScreen = (props: AnswerScreenProps) => {
   
   const answer = (
     props.error 
@@ -20,7 +25,8 @@ const AnswerScreen = (props) => {
 
 export default AnswerScreen;
 
-AnswerScreen.propTypes = {
-  error: PropTypes.string,
-  answer: PropTypes.number
-};
+// AnswerScreen.propTypes = {
+//   error: PropTypes.string,
+//   answer: PropTypes.number
+// };
+

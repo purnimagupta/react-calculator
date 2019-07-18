@@ -3,7 +3,12 @@ import '../App.css';
 import AnswerScreen from './AnswerScreen';
 import EquationScreen from './EquationScreen';
 
-function DisplayScreen(props) {
+interface DisplayScreenProps {
+  error: string;
+  answer: number;
+  mathEquation: string;
+}
+function DisplayScreen(props: DisplayScreenProps) {
   const { error, answer, mathEquation } = props;
   
   return(
@@ -14,4 +19,3 @@ function DisplayScreen(props) {
   )
 }
 export default DisplayScreen;
-

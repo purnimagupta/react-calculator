@@ -8,16 +8,25 @@ import ScientificKeypad from './ScientificKeypad';
 import squareRoot from '../utils/squareRoot';
 import square from '../utils/square';
 import * as constants from '../constants';
+import {Equation} from '../utils/evalEquation';
 
-class Calculator extends React.Component {
-  state = {
+interface CalculatorState {
+  answer: number;
+  mathEquation: string;
+  error: string;
+  currentVal: number;
+}
+
+class Calculator extends React.Component<{}, CalculatorState> {
+  
+  state: CalculatorState = {
     answer: 0,
     mathEquation: '',
     error:'',
-    currentVal: '',
+    currentVal: 0,
   }
 
-  changeSignCurrentVal = (currentVal) => {
+  changeSignCurrentVal = (currentVal: number) => {
     console.log("changeSignCurrentVal", currentVal)
     this.setState({
       currentVal: currentVal*-1
@@ -27,13 +36,13 @@ class Calculator extends React.Component {
 
   updateEquationOnSign = () => {
     const { mathEquation } = this.state;
-    let equationArray = parseStringEquation(mathEquation);
+    let equationArray = parseStringEquation(mathEquation as string);
     let lastIndex = equationArray.length-1;
-    let lastElem = equationArray[equationArray.length-1];
+    let lastElem = equationArray[equationArray.length-1] as number;
     equationArray.splice(lastIndex, 1, lastElem*-1)
 
     this.setState(  {
-      mathEquation: equationArray.join([])
+      mathEquation: equationArray.join("")
     })
 
   }
@@ -52,14 +61,14 @@ class Calculator extends React.Component {
       mathEquation: '',
       answer: 0,
       error: '',
-      currentVal: '',
+      currentVal: 0,
     })
   }
 
   getSquareRoot = () => {
     const { mathEquation } = this.state;
-    let error, sqrtNum;
-    if(Math.sign(mathEquation) === -1) {
+    let error = "", sqrtNum=0;
+    if(Math.sign(Number(mathEquation)) === -1) {
         error = "Square root of negative number can't be calculated"
     }else{
         sqrtNum = squareRoot(Number(mathEquation));
@@ -73,22 +82,32 @@ class Calculator extends React.Component {
   }
 
   calculateEquation = () => {
-    let evalAnswer, error;
+    let evalAnswer: Equation = {};
+    let error='';
     try {
       const { mathEquation } = this.state;
-      evalAnswer = evalEquation(parseStringEquation(mathEquation))
+      
+      evalAnswer = evalEquation(parseStringEquation(mathEquation as string))
       console.log(evalAnswer)
-      if(Number.isNaN(evalAnswer) || evalAnswer === undefined) {
+      if(Number.isNaN(evalAnswer.result as number) || evalAnswer === undefined) {
           error = "Error";
       } 
     }
     catch(error) {
       console.log(error)
     }
+    let mathEquation = "";
+    if (error) {
+      mathEquation = error;
+    } else {
+      if (evalAnswer.result) {
+        mathEquation = evalAnswer.result.toString();
+      }
+    }
     this.setState({
-      answer: evalAnswer,
-      error: error,
-      mathEquation: error ? error : evalAnswer.toString()
+      answer: typeof evalAnswer.result === "number" ? evalAnswer.result : 0,
+      error: typeof evalAnswer.error === "string" ? error : '',
+      mathEquation: mathEquation,
     });
   }
   /**
@@ -101,15 +120,15 @@ class Calculator extends React.Component {
    * @param {String} numberbtns
    * 
    */
-  concatNumbers = (numberbtns) => {
+  concatNumbers = (digit: string) => {
     let {mathEquation } = this.state;
-    numberbtns = Number(numberbtns);
-    mathEquation = mathEquation.concat(numberbtns);
-    const arrVal = parseStringEquation(mathEquation)
-    let lastElem = arrVal[arrVal.length-1]; 
+    // const numberbtns = Number(digit);
+    mathEquation = mathEquation.concat(digit);
+    // const arrVal = parseStringEquation(mathEquation)
+    // let lastElem = arrVal[arrVal.length-1]; 
     this.setState({
       mathEquation: mathEquation,
-      currentVal: lastElem
+      // currentVal: lastElem as number
     })
   }
 
@@ -119,7 +138,7 @@ class Calculator extends React.Component {
    * @param {String} operatorsbtns
    * 
    */
-  concatOpearators = (operatorsbtns) => {
+  concatOpearators = (operatorsbtns: string) => {
     let {mathEquation } = this.state;
     mathEquation = mathEquation.toString();
     mathEquation= mathEquation.concat(operatorsbtns);
@@ -136,7 +155,7 @@ class Calculator extends React.Component {
    * @param {String} btnName
    * 
    */
-  performOperation = (btnName) => {
+  performOperation = (btnName: string) => {
     const { currentVal} = this.state;
 
     if(btnName === constants.CLEAR) {

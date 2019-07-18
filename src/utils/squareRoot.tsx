@@ -4,6 +4,6 @@
  * @param {Number} num
  * @return {Number} Number
  */
-export default function squareRoot(num) {
+export default function squareRoot(num: number) {
   return Math.sqrt(num)
 }
